@@ -1,157 +1,155 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pentanomia-25 Typology Matrix</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f8fafc;
-        }
-        .writing-vertical {
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pentanomia-25 Typology Matrix</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      background-color: #ffffff;
+      color: #1a1a1a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+  </style>
 </head>
-<body class="p-4 md:p-8">
-    <div id="root"></div>
+<body class="p-2 sm:p-4 max-w-xl mx-auto">
+  <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState } = React;
+  <script type="text/babel">
+    const { useState } = React;
 
-        const layers = [
-            { id: "L1", name: "身体・本能", bg: "bg-red-50", text: "text-red-700", border: "border-red-200" },
-            { id: "L2", name: "感情・対人", bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200" },
-            { id: "L3", name: "役割・集団", bg: "bg-green-50", text: "text-green-700", border: "border-green-200" },
-            { id: "L4", name: "認知・システム", bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200" },
-            { id: "L5", name: "超越・全体最適", bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200" }
-        ];
+    const layers = [
+      { code: 'L1', name: '身体・本能', bg: 'bg-red-100', text: 'text-red-900', border: 'border-red-300', activeBorder: 'ring-4 ring-red-500' },
+      { code: 'L2', name: '感情・対人', bg: 'bg-blue-100', text: 'text-blue-900', border: 'border-blue-300', activeBorder: 'ring-4 ring-blue-500' },
+      { code: 'L3', name: '役割・集団', bg: 'bg-green-100', text: 'text-green-900', border: 'border-green-300', activeBorder: 'ring-4 ring-green-500' },
+      { code: 'L4', name: '認知・システム', bg: 'bg-yellow-100', text: 'text-yellow-900', border: 'border-yellow-300', activeBorder: 'ring-4 ring-amber-500' },
+      { code: 'L5', name: '超越・全体最適', bg: 'bg-purple-100', text: 'text-purple-900', border: 'border-purple-300', activeBorder: 'ring-4 ring-purple-500' }
+    ];
 
-        const dynamics = [
-            { id: "D1", name: "意志・牽引" },
-            { id: "D2", name: "観察・防衛" },
-            { id: "D3", name: "実行・調達" },
-            { id: "D4", name: "調和・維持" },
-            { id: "D5", name: "拡張・変化" }
-        ];
+    const directions = [
+      { code: 'D1', name: '意志・牽引' },
+      { code: 'D2', name: '観察・防衛' },
+      { code: 'D3', name: '実行・調達' },
+      { code: 'D4', name: '調和・維持' },
+      { code: 'D5', name: '拡張・変化' }
+    ];
 
-        const archetypeData = {
-            "L1D1": { name: "身体的野生の覇者", desc: "言語化に先立ち直感的・物理的アクションを起こす。圧倒的な生命力と存在感で空間を威嚇・牽引する原初的アルファ。" },
-            "L1D2": { name: "本能的リスク検知者", desc: "環境の微小な違和感や不快ノイズに過敏。リスクを察知すると即座に警戒モードに入り個の生存率を高める。" },
-            "L1D3": { name: "身体的求道者・職人", desc: "道具の扱いや身体運用の熟練に没頭。言葉よりも「体が覚えている感覚」で実体的な成果物を創出する。" },
-            "L1D4": { name: "生理的快適の保護者", desc: "恒常性（ホメオスタシス）の維持に特化。安全な住処や環境の快適性を保ち、身体的ストレスを最小化する。" },
-            "L1D5": { name: "感覚的冒険家", desc: "未知の身体感覚や刺激を求めて移動する。リスクを冒して「感覚の拡張」を試み、新たな資源や生息地を開拓。" },
-            "L2D1": { name: "情熱的支配者", desc: "特定の対象を強く囲い込み主導権を握る。独占欲と熱量で相手を牽引し、強い情緒的結合を形成する。" },
-            "L2D2": { name: "対人警戒の洞察者", desc: "他者の欺瞞や感情の侵犯に対して過敏。パーソナルスペースを死守し、距離を置いて真意を探る。" },
-            "L2D3": { name: "献身的サポーター", desc: "言葉の綾よりも世話や具体的行動で絆を示す。特定の他者の生存や生活を物理的に支え抜く。" },
-            "L2D4": { name: "感情的共振者", desc: "相手の感情に深く共鳴する圧倒的共感力。一対一の関係から対立や波風を極度に排し、平穏を守る。" },
-            "L2D5": { name: "関係性の変革者", desc: "相手の潜在能力を引き出す触媒。関係がマンネリ化するとあえて揺さぶりをかけ、新たな段階へと進化させる。" },
-            "L3D1": { name: "集団の旗振り役", desc: "小集団（5人前後）において瞬時に意思決定を行う。責任を恐れず群れのベクトルを一つに束ねるキャプテン。" },
-            "L3D2": { name: "集団の安全弁", desc: "人間関係の亀裂や外部の脅威を察知。集団が崩壊・全滅するリスクを事前に予測し、アラートを鳴らす。" },
-            "L3D3": { name: "集団の大黒柱", desc: "群れの活動に必要なタスクや準備を淡々と遂行。この人が抜けると集団の生存基盤が倒れる大黒柱。" },
-            "L3D4": { name: "集団のクッション", desc: "メンバー間のエゴの衝突を間に入って吸収。誰一人取り残さない配慮で群れの結束力（コヒーシブネス）を保つ。" },
-            "L3D5": { name: "集団のスカウト", desc: "群れの外に出て新たな獲物場や情報を持ち帰る開拓者。閉塞感のある集団に新しい選択肢を注入する。" },
-            "L4D1": { name: "システムの推進者", desc: "法律や組織のルールを駆使し、大規模なプロジェクトを強固な推進力で動かす。制度のレバレッジを熟知。" },
-            "L4D2": { name: "システムの監理者", desc: "契約書の不備やコードのバグ、論理的破綻を監視。システムが正常かつ公正に稼働しているか精査する。" },
-            "L4D3": { name: "システムの運用者", desc: "定められたマニュアルを圧倒的な正確性とスピードで遂行。社会的インフラの継続稼働を担うプロ。" },
-            "L4D4": { name: "システムの調整者", desc: "利害が対立する複数の勢力の「落としどころ」を合意形成。複雑な社会組織を摩擦なく滑らかに回す。" },
-            "L4D5": { name: "システムの再定義者", desc: "既存の制度や学説の限界を見抜き、新フレームワークを提案。時代の変化に合わせて社会のOSを刷新する。" },
-            "L5D1": { name: "グランド・デザイナー", desc: "100年単位の歴史的スケールで社会のあるべき姿を構想。強烈な思想を打ち立て時代を牽引する。" },
-            "L5D2": { name: "時代を見守る老賢者", desc: "文明の狂騒から離れ、人間の愚かさや宇宙の理を静かに達観。危機の時代に根本的な問いを投げかける。" },
-            "L5D3": { name: "構造構築者", desc: "単なる理想論に終わらせず、自律駆動するプラットフォームや持続可能エコシステムを現実空間に定着させる。" },
-            "L5D4": { name: "存在の統合者", desc: "「個」と「全体」、「科学」と「精神」など相反する二項対立を包摂し、高次でアウフヘーベン（止揚）させる。" },
-            "L5D5": { name: "次元超越者", desc: "人類の現在の認知限界やパラダイムを外側へ突き破る。未知の世界観を提示し、種としての意識の進化を促す。" }
-        };
+    const matrixData = [
+      // L1
+      { id: 'L1D1', lIndex: 0, dIndex: 0, name: '身体的野生の覇者', desc: '圧倒的な体力や本能的直感で場を支配し、最前線で突破口を開くエネルギーの体現者。' },
+      { id: 'L1D2', lIndex: 0, dIndex: 1, name: '本能的リスク検知者', desc: '危険や違和感を感覚的に素早く察知し、未然に危機を回避・防衛する鋭い直感力を持つ。' },
+      { id: 'L1D3', lIndex: 0, dIndex: 2, name: '身体求道者・職人', desc: '自らの身体機能や技術を極限まで磨き上げ、実体ある成果や作品を確実に生み出す。' },
+      { id: 'L1D4', lIndex: 0, dIndex: 3, name: '生理的快適保護者', desc: '居住環境や生活習慣の安定を第一に考え、身近な人々の身体的・生理的な安心を守る。' },
+      { id: 'L1D5', lIndex: 0, dIndex: 4, name: '感覚的冒険家', desc: '新たな身体体験や未知の環境へ飛び込み、五感をフルに活用して新しい風を吹き込む。' },
+      // L2
+      { id: 'L2D1', lIndex: 1, dIndex: 0, name: '情熱的支配者', desc: '強い感情とカリスマ性で人々の心を動かし、情熱的なモチベーションで集団を引っ張る。' },
+      { id: 'L2D2', lIndex: 1, dIndex: 1, name: '対人警戒の洞察者', desc: '相手の感情の裏にある真意や人間関係の摩擦を見抜き、不必要な対人トラブルを防ぐ。' },
+      { id: 'L2D3', lIndex: 1, dIndex: 2, name: '献身的サポーター', desc: '他者の感情やニーズに寄り添い、実質的な対人支援や心配りで関係性を支える。' },
+      { id: 'L2D4', lIndex: 1, dIndex: 3, name: '感情的共振者', desc: '場やチームの空気感を読み取り、調和を生み出すことで関係性の安定と一体感を維持する。' },
+      { id: 'L2D5', lIndex: 1, dIndex: 4, name: '関係性の変革者', desc: '固定化した対人関係や冷え切った雰囲気に揺さぶりをかけ、感情的なブレイクスルーを起こす。' },
+      // L3
+      { id: 'L3D1', lIndex: 2, dIndex: 0, name: '集団の旗振り役', desc: 'チームの目指すべきビジョンを掲げ、役割分担を明確にして集団の目標達成を推進する。' },
+      { id: 'L3D2', lIndex: 2, dIndex: 1, name: '集団の安全弁', desc: '組織のコンプライアンスやリスクを厳しく見守り、集団が崩壊しないようブレーキをかける。' },
+      { id: 'L3D3', lIndex: 2, dIndex: 2, name: '集団の大黒柱', desc: '現場の実務を取り仕切り、着実なリソース管理とタスク遂行で組織の土台を強固にする。' },
+      { id: 'L3D4', lIndex: 2, dIndex: 3, name: '集団のクッション', desc: 'メンバー間の衝突を和らげ、潤滑油として機能することで組織全体の和を保つ。' },
+      { id: 'L3D5', lIndex: 2, dIndex: 4, name: '集団のスカウト', desc: '外部から新しい人材や機会を引き入れ、組織に多様性と新しい風を取り込む。' },
+      // L4
+      { id: 'L4D1', lIndex: 3, dIndex: 0, name: 'システムの推進者', desc: '論理的思考と戦略で新規プロジェクトや業務システムを設計し、強力に推し進める。' },
+      { id: 'L4D2', lIndex: 3, dIndex: 1, name: 'システムの管理者', desc: 'データの整合性や運用のエラーを厳密にモニタリングし、システムの健全性を保つ。' },
+      { id: 'L4D3', lIndex: 3, dIndex: 2, name: 'システムの運用者', desc: '複雑なフレームワークやツールを実務に落とし込み、効率的なオペレーションを実現する。' },
+      { id: 'L4D4', lIndex: 3, dIndex: 3, name: 'システムの調整者', desc: '既存システム同士の相律や不整合を調整し、全体が滑らかに連動するようチューニングする。' },
+      { id: 'L4D5', lIndex: 3, dIndex: 4, name: 'システムの再定義者', desc: '既存のルールや仕組みの限界を見抜き、新世代のフレームワークへとアップデートする。' },
+      // L5
+      { id: 'L5D1', lIndex: 4, dIndex: 0, name: 'グランドデザイナー', desc: '長期的かつ壮大な世界的ビジョンを描き、社会全体を導く新たな概念を生み出す。' },
+      { id: 'L5D2', lIndex: 4, dIndex: 1, name: '時代を見守る老賢者', desc: '歴史の俯瞰的視点から本質的なリスクを見抜き、大局的な判断とアドバイスを与える。' },
+      { id: 'L5D3', lIndex: 4, dIndex: 2, name: '構造構築者', desc: '単なる理想論に終わらせず、自律駆動するプラットフォームやエコシステムを現実空間に定着させる。' },
+      { id: 'L5D4', lIndex: 4, dIndex: 3, name: '存在の統合者', desc: '対立する多様な価値観や思想を高い次元で統合し、全体に平和と安寧をもたらす。' },
+      { id: 'L5D5', lIndex: 4, dIndex: 4, name: '次元超越者', desc: '既存のパラダイムを完全に超越し、人類の思考や価値観のフロンティアを切り開く。' }
+    ];
 
-        function App() {
-            const [selectedId, setSelectedId] = useState(null);
+    function App() {
+      const [selected, setSelected] = useState(matrixData[22]); // デフォルト：構造構築者(L5D3)
 
-            const handleSelect = (code) => {
-                setSelectedId(code);
-            };
+      const layerInfo = layers[selected.lIndex];
+      const dirInfo = directions[selected.dIndex];
 
-            const selectedData = selectedId ? archetypeData[selectedId] : null;
-            const selectedLayer = selectedId ? layers.find(l => l.id === selectedId.substring(0, 2)) : null;
-            const selectedDynamic = selectedId ? dynamics.find(d => d.id === selectedId.substring(2, 4)) : null;
+      return (
+        <div class="flex flex-col items-center">
+          <h1 class="text-xl sm:text-2xl font-bold mb-3 text-center">Pentamonia-25 Typology Matrix</h1>
 
-            return (
-                <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-200">
-                    <h1 class="text-2xl font-bold text-slate-800 mb-6">Pentanomia-25 Typology Matrix</h1>
+          {/* マトリクス本体テーブル */}
+          <div class="w-full overflow-x-auto mb-4">
+            <table class="w-full text-center border-collapse text-xs">
+              <thead>
+                <tr>
+                  <th class="p-1 w-1/6 font-semibold text-gray-500"></th>
+                  {directions.map((d) => (
+                    <th key={d.code} class="p-1 w-1/6 leading-tight font-medium text-gray-700">
+                      <div class="font-bold text-[10px] text-gray-400">{d.code}</div>
+                      <div>{d.name.split('・')[0]}・</div>
+                      <div>{d.name.split('・')[1]}</div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {layers.map((layer, lIdx) => (
+                  <tr key={layer.code}>
+                    {/* 縦軸ラベル */}
+                    <td class="p-1 font-medium text-gray-700 leading-tight border-r border-gray-200">
+                      <div class="font-bold text-[10px] text-gray-400">{layer.code}</div>
+                      <div>{layer.name.split('・')[0]}・</div>
+                      <div>{layer.name.split('・')[1]}</div>
+                    </td>
+                    {/* セル */}
+                    {directions.map((dir, dIdx) => {
+                      const item = matrixData.find(m => m.lIndex === lIdx && m.dIndex === dIdx);
+                      const isSelected = selected.id === item.id;
 
-                    {/* Matrix Grid */}
-                    <div class="overflow-x-auto mb-8">
-                        <div class="min-w-[600px]">
-                            {/* Column Headers */}
-                            <div class="grid grid-cols-6 gap-2 mb-2 text-center text-xs font-semibold text-slate-500">
-                                <div></div>
-                                {dynamics.map(d => (
-                                    <div key={d.id} class="py-1">{d.name}</div>
-                                ))}
-                            </div>
+                      return (
+                        <td key={item.id} class="p-0.5">
+                          <button
+                            onClick={() => setSelected(item)}
+                            class={`w-full h-16 sm:h-20 p-1 rounded border flex flex-col justify-center items-center text-center transition-all ${layer.bg} ${layer.text} ${layer.border} ${isSelected ? `${layer.activeBorder} font-bold scale-105 z-10 shadow-md` : 'hover:opacity-80'}`}
+                          >
+                            <span class="text-[9px] opacity-60 mb-0.5">{item.id}</span>
+                            <span class="text-[11px] sm:text-xs leading-tight font-medium">
+                              {item.name}
+                            </span>
+                          </button>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                            {/* Rows */}
-                            {layers.map((layer) => (
-                                <div key={layer.id} class="grid grid-cols-6 gap-2 mb-2 items-center">
-                                    <div class="text-xs font-bold text-slate-600 text-center pr-2">
-                                        {layer.name}
-                                    </div>
-                                    {dynamics.map((dynamic) => {
-                                        const code = `${layer.id}${dynamic.id}`;
-                                        const item = archetypeData[code];
-                                        const isSelected = selectedId === code;
+          {/* 詳細カード（すぐ下に配置） */}
+          <div class={`w-full p-4 rounded-xl border ${layerInfo.bg} ${layerInfo.border} shadow-sm transition-all`}>
+            <div class="text-xs font-semibold text-gray-500 mb-1">
+              {selected.id} (第{selected.lIndex + 1}層: {layerInfo.name} × {dirInfo.name})
+            </div>
+            <h2 class={`text-lg font-bold mb-2 ${layerInfo.text}`}>
+              {selected.name}
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+              {selected.desc}
+            </p>
+          </div>
+        </div>
+      );
+    }
 
-                                        return (
-                                            <button
-                                                key={code}
-                                                onClick={() => handleSelect(code)}
-                                                class={`p-2 rounded-lg border text-xs text-center h-20 flex flex-col justify-between items-center transition-all ${layer.bg} ${layer.border} ${isSelected ? 'ring-2 ring-slate-800 font-bold shadow-md' : 'hover:opacity-80'}`}
-                                            >
-                                                <span class={`text-[10px] font-mono opacity-60 ${layer.text}`}>{code}</span>
-                                                <span class={`font-medium leading-tight ${layer.text}`}>{item.name}</span>
-                                                <div></div>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Inspector Panel */}
-                    <div class="border-t border-slate-200 pt-6">
-                        <div class="grid grid-cols-2 gap-4 text-xs text-slate-500 mb-4 font-mono">
-                            <div>
-                                <span class="block text-[10px] uppercase tracking-wider text-slate-400">Selected Type</span>
-                                <span class="text-base font-bold text-slate-800">{selectedData ? selectedData.name : 'None'}</span>
-                            </div>
-                            <div>
-                                <span class="block text-[10px] uppercase tracking-wider text-slate-400">Coordinates</span>
-                                <span class="text-base font-bold text-slate-800">
-                                    {selectedId ? `${selectedId} (${selectedLayer.name} × ${selectedDynamic.name})` : '-'}
-                                </span>
-                            </div>
-                        </div>
-
-                        {selectedData && (
-                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-sm text-slate-700 leading-relaxed">
-                                {selectedData.desc}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            );
-        }
-
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-    </script>
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
