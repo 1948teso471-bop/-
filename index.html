@@ -86,10 +86,12 @@
           <div class="w-full flex flex-row items-start justify-between gap-3 mb-4">
             <div>
               <h1 class="text-2xl font-bold tracking-tight text-gray-900">ペンタノミア</h1>
-              <p class="text-xs text-gray-400 font-light">Pentanomia-25 Typology Matrix</p>
+              <p class="text-xs text-gray-400 font-light">
+                Pentanomia-25 <span class="text-gray-300">Typology Matrix</span>
+              </p>
             </div>
             <div class="text-xs text-gray-600 leading-relaxed max-w-[55%] text-right">
-              この理論は、身体、感情、役割、認知、超越の5つの層を、5つの方向性で分析し、人間の特性を体系化するものであり、同じ層に属する要同士は、相性が良いという特徴があります。
+              この理論は、身体、感情、役割、認知、超越の5つの層を、相性の良い5つの方向性で分類し、人間の特性を体系化するものです。
             </div>
           </div>
 
@@ -111,7 +113,7 @@
               <tbody>
                 {layers.map((layer, lIdx) => (
                   <tr key={layer.code}>
-                    {/* 縦軸ラベル（枠線なし・すっきり表示） */}
+                    {/* 縦軸ラベル（枠線なし） */}
                     <td class="p-1 font-medium text-gray-700 leading-tight">
                       <div class="font-bold text-[10px] text-gray-400">{layer.code}</div>
                       <div>{layer.name.split('・')[0]}・</div>
